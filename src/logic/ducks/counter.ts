@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "../store";
 
 // Models/Types
 export interface CounterState {
@@ -27,27 +28,24 @@ const counterSlice = createSlice({
 		decrement: (state) => {
 			state.value -= 1;
 		},
-		incrementByAmount: (state, action: PayloadAction<number>) => {
-			state.value += action.payload;
-		},
 		reset: (state) => {
 			state.value = 0;
 			state.error = null;
 		},
 
 		// Saga-related actions
-		incrementAsync: {
+		setNewCounterValue: {
 			reducer: (state) => {
 				state.loading = true;
 				state.error = null;
 			},
 			prepare: (amount: number) => ({ payload: amount }),
 		},
-		incrementAsyncSuccess: (state, action: PayloadAction<number>) => {
+		setNewCounterValueSuccess: (state, action: PayloadAction<number>) => {
 			state.loading = false;
-			state.value += action.payload;
+			state.value = action.payload;
 		},
-		incrementAsyncFailure: (state, action: PayloadAction<string>) => {
+		setNewCounterValueFailure: (state, action: PayloadAction<string>) => {
 			state.loading = false;
 			state.error = action.payload;
 		},
@@ -58,22 +56,27 @@ const counterSlice = createSlice({
 export const {
 	increment,
 	decrement,
-	incrementByAmount,
 	reset,
-	incrementAsync,
-	incrementAsyncSuccess,
-	incrementAsyncFailure,
+	setNewCounterValue,
+	setNewCounterValueSuccess,
+	setNewCounterValueFailure,
 } = counterSlice.actions;
 
 // Selectors
-export const selectCounter = (state: { counter: CounterState }) =>
-	state.counter;
-export const selectCounterValue = (state: { counter: CounterState }) =>
-	state.counter.value;
-export const selectCounterLoading = (state: { counter: CounterState }) =>
-	state.counter.loading;
-export const selectCounterError = (state: { counter: CounterState }) =>
-	state.counter.error;
+const rootSelector = (state: RootState) => state.counter;
+export const selectCounter = createSelector(rootSelector, (counter) => counter);
+export const selectCounterValue = createSelector(
+	rootSelector,
+	(counter) => counter.value
+);
+export const selectCounterLoading = createSelector(
+	rootSelector,
+	(counter) => counter.loading
+);
+export const selectCounterError = createSelector(
+	rootSelector,
+	(counter) => counter.error
+);
 
 // Reducer (default export)
 export default counterSlice.reducer;

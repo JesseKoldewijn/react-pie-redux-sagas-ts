@@ -1,0 +1,103 @@
+.container {
+	width: max-content;
+	max-width: 600px;
+}
+
+.counterDisplay {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+}
+
+.loadingText {
+	color: #666;
+	font-size: 0.9rem;
+}
+
+.errorText {
+	color: red;
+	font-size: 0.9rem;
+}
+
+.quantityLabel {
+	font-size: 14px;
+	color: #000;
+	margin-bottom: 8px;
+	font-weight: 400;
+	letter-spacing: 0.01em;
+	user-select: none;
+}
+
+.quantitySelector {
+	display: flex;
+	align-items: center;
+	border: 1.5px solid #d1d5db;
+	border-radius: 32px;
+	background: white;
+	padding: 4px;
+	width: 100%;
+	max-width: 240px;
+	height: 48px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.quantityButton {
+	background: none;
+	border: none;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	font-size: 18px;
+	font-weight: 300;
+	color: #000;
+	transition: all 0.15s ease;
+	flex-shrink: 0;
+}
+
+.quantityButton:hover {
+	background-color: #f8f9fa;
+	transform: scale(1.05);
+}
+
+.quantityButton:active {
+	background-color: #e9ecef;
+	transform: scale(0.98);
+}
+
+.quantityButton:disabled {
+	cursor: not-allowed;
+	opacity: 0.4;
+	transform: none;
+}
+
+.quantityInput {
+	flex: 1;
+	text-align: center;
+	font-size: 16px;
+	font-weight: 400;
+	color: #000;
+	min-width: 40px;
+	letter-spacing: 0.01em;
+	height: 40px;
+	outline: none;
+	border: none;
+	/** Remove default number input styles **/
+	-moz-appearance: textfield;
+}
+
+.quantityInput::-webkit-inner-spin-button,
+.quantityInput::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	appearance: none;
+	margin: 0;
+}
+
+.messageContainer {
+	display: flex;
+	flex-direction: column;
+	padding-top: 2px;
+}

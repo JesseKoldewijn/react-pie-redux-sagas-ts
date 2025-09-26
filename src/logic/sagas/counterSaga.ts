@@ -1,37 +1,28 @@
-import { put, takeEvery, delay } from "redux-saga/effects";
+import { put, takeEvery } from "redux-saga/effects";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import {
-	incrementAsync,
-	incrementAsyncSuccess,
-	incrementAsyncFailure,
+	setNewCounterValue,
+	setNewCounterValueSuccess,
+	setNewCounterValueFailure,
 } from "../ducks/counter";
 
 // Worker saga: will be fired on INCREMENT_ASYNC actions
-function* incrementAsyncSaga(action: PayloadAction<number>) {
+function* quantityIncrementHandler(action: PayloadAction<number>) {
 	try {
-		// Simulate an API call with delay
-		yield delay(1000);
-
-		// Simulate potential failure (10% chance)
-		const shouldFail = Math.random() < 0.1;
-		if (shouldFail) {
-			throw new Error("Something went wrong!");
-		}
-
 		// Dispatch success action
-		yield put(incrementAsyncSuccess(action.payload));
+		yield put(setNewCounterValueSuccess(action.payload));
 	} catch (error) {
 		// Dispatch failure action
 		const errorMessage =
 			error instanceof Error ? error.message : "Unknown error";
-		yield put(incrementAsyncFailure(errorMessage));
+		yield put(setNewCounterValueFailure(errorMessage));
 	}
 }
 
-// Watcher saga: watches for INCREMENT_ASYNC actions
-function* watchIncrementAsync() {
-	yield takeEvery(incrementAsync.type, incrementAsyncSaga);
+// Watcher saga: watches for SET_NEW_COUNTER_VALUE actions
+function* watchNewCounterValue() {
+	yield takeEvery(setNewCounterValue.type, quantityIncrementHandler);
 }
 
 // Export the main saga
-export { watchIncrementAsync as counterSaga };
+export { watchNewCounterValue as counterSaga };
